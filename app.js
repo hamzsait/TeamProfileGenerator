@@ -181,7 +181,9 @@ async function init(){
 
     var selection = await getOptions()
     if (selection.option == "ALL DONE"){
-        render(team)
+        fs.writeFile("output.html",render(team),(err) =>
+          err ? console.error(err) : console.log('Success!')
+        )
         return
     }
     else if (selection.option == "ADD ENGINEER"){

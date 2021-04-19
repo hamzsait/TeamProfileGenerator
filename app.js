@@ -13,10 +13,18 @@ const render = require("./lib/htmlRenderer");
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
+const optionQuestions = [
+    {
+        type: 'list',
+        name: 'option',
+        message: "Would you like to add an Engineer or an Intern?",
+        choices: ['ADD INTERN','ADD ENGINEER','ALL DONE']
+    },
+]
 const managerQuestions = [
     {
         type: 'input',
-        name: 'managerName',
+        name: 'name',
         message: 'Enter Manager Name:',
         validate: ((userData) => {
         return userData.length < 1 ? console.log('Please enter a name.') : true
@@ -24,7 +32,7 @@ const managerQuestions = [
     },
     {
         type: 'input',
-        name: 'managerID',
+        name: 'id',
         message: 'Enter Manager ID:',
         validate: ((userData) => {
             return userData.length < 1 ? console.log('Please enter an ID number.') : true
@@ -32,7 +40,7 @@ const managerQuestions = [
     },
     {
         type: 'input',
-        name: 'managerEmail',
+        name: 'email',
         message: 'Enter Manager email:',
         validate: ((userData) => {
             return userData.length < 1 ? console.log('Please enter an email.') : true
@@ -40,14 +48,90 @@ const managerQuestions = [
     },
     {
         type: 'input',
-        name: 'managerOfficeNum',
+        name: 'officeNum',
         message: 'Enter Manager office number:',
         validate: ((userData) => {
             return userData.length < 1 ? console.log('Please enter an office number.') : true
         })
     },
 ]
+const engineerQuestions = [
+    {
+        type: 'input',
+        name: 'name',
+        message: 'Enter Engineer Name:',
+        validate: ((userData) => {
+        return userData.length < 1 ? console.log('Please enter a name.') : true
+        })
+    },
+    {
+        type: 'input',
+        name: 'id',
+        message: 'Enter Engineer ID:',
+        validate: ((userData) => {
+            return userData.length < 1 ? console.log('Please enter an ID number.') : true
+        })
+    },
+    {
+        type: 'input',
+        name: 'email',
+        message: 'Enter Engineer email:',
+        validate: ((userData) => {
+            return userData.length < 1 ? console.log('Please enter an email.') : true
+        })
+    },
+    {
+        type: 'input',
+        name: 'gitHub',
+        message: 'Enter Engineer Git Hub username:',
+        validate: ((userData) => {
+            return userData.length < 1 ? console.log('Please enter a username.') : true
+        })
+    },
+]
+const internQuestions = [
+    {
+        type: 'input',
+        name: 'name',
+        message: 'Enter Intern Name:',
+        validate: ((userData) => {
+        return userData.length < 1 ? console.log('Please enter a name.') : true
+        })
+    },
+    {
+        type: 'input',
+        name: 'id',
+        message: 'Enter Intern ID:',
+        validate: ((userData) => {
+            return userData.length < 1 ? console.log('Please enter an ID number.') : true
+        })
+    },
+    {
+        type: 'input',
+        name: 'email',
+        message: 'Enter Intern email:',
+        validate: ((userData) => {
+            return userData.length < 1 ? console.log('Please enter an email.') : true
+        })
+    },
+    {
+        type: 'input',
+        name: 'school',
+        message: 'Enter Intern School:',
+        validate: ((userData) => {
+            return userData.length < 1 ? console.log('Please enter a School.') : true
+        })
+    },
+]
 
+
+async function getOptions(){
+    let output
+    await inquirer.prompt(optionQuestions).then(
+        answers => output = answers
+    )
+    return output
+}
 async function getManager(){
     let output
     await inquirer.prompt(managerQuestions).then(
@@ -55,10 +139,64 @@ async function getManager(){
     )
     return output
 }
+async function getEngineer(){
+    let output
+    await inquirer.prompt(engineerQuestions).then(
+        answers => output = answers 
+    )
+    return output
+}
+async function getIntern(){
+    let output
+    await inquirer.prompt(internQuestions).then(
+        answers => output = answers 
+    )
+    return output
+}
 
+started = false
+team = []
 async function init(){
-    var manager = await getManager()
-    console.log(manager)
+
+    if (!started){
+        let manager = await getManager()
+        started = true
+        manager = new Manager(manager.name, manager.id, manager.email, manager.officeNum)
+        team.push(manager)
+        console.log("-------------------------------")
+        console.log(`| Current team members include:`)
+        for (member of team){
+            console.log('| ' + member.getRole() + " : " + member.name)
+        }
+        console.log("-------------------------------")
+    }
+    else{
+        console.log("-------------------------------")
+        console.log(`| Current team members include:`)
+        for (member of team){
+            console.log('| ' + member.getRole() + " : " + member.name)
+        }
+        console.log("-------------------------------")
+    }
+
+    var selection = await getOptions()
+    if (selection.option == "ALL DONE"){
+        return
+    }
+    else if (selection.option == "ADD ENGINEER"){
+        let engineer = await getEngineer()
+        engineer = new Engineer(engineer.name, engineer.id, engineer.email, engineer.gitHub)
+        team.push(engineer)
+        init()
+        return
+    }
+    else if (selection.option == "ADD INTERN"){
+        let intern = await getIntern()
+        intern = new Intern(intern.name, intern.id, intern.email, intern.school)
+        team.push(intern)
+        init()
+        return
+    }
 }
 
 init()
@@ -72,13 +210,3 @@ init()
 // `output` folder. You can use the variable `outputPath` above target this location.
 // Hint: you may need to check if the `output` folder exists and create it if it
 // does not.
-
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
-
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```

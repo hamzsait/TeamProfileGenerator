@@ -1,22 +1,67 @@
 const Manager = require("./lib/Manager");
-// const Engineer = require("./lib/Engineer");
-// const Intern = require("./lib/Intern");
-// const inquirer = require("inquirer");
-// const path = require("path");
-// const fs = require("fs");
+const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
+const inquirer = require("inquirer");
+const path = require("path");
+const fs = require("fs");
 
-// const OUTPUT_DIR = path.resolve(__dirname, "output");
-// const outputPath = path.join(OUTPUT_DIR, "team.html");
+const OUTPUT_DIR = path.resolve(__dirname, "output");
+const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-// const render = require("./lib/htmlRenderer");
-
-var Monica = new Manager("Monica","Flores","mon@mon.com",224)
-
-console.log(Monica.email)
-
+const render = require("./lib/htmlRenderer");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+
+const managerQuestions = [
+    {
+        type: 'input',
+        name: 'managerName',
+        message: 'Enter Manager Name:',
+        validate: ((userData) => {
+        return userData.length < 1 ? console.log('Please enter a name.') : true
+        })
+    },
+    {
+        type: 'input',
+        name: 'managerID',
+        message: 'Enter Manager ID:',
+        validate: ((userData) => {
+            return userData.length < 1 ? console.log('Please enter an ID number.') : true
+        })
+    },
+    {
+        type: 'input',
+        name: 'managerEmail',
+        message: 'Enter Manager email:',
+        validate: ((userData) => {
+            return userData.length < 1 ? console.log('Please enter an email.') : true
+        })
+    },
+    {
+        type: 'input',
+        name: 'managerOfficeNum',
+        message: 'Enter Manager office number:',
+        validate: ((userData) => {
+            return userData.length < 1 ? console.log('Please enter an office number.') : true
+        })
+    },
+]
+
+async function getManager(){
+    let output
+    await inquirer.prompt(managerQuestions).then(
+        answers => output = answers 
+    )
+    return output
+}
+
+async function init(){
+    var manager = await getManager()
+    console.log(manager)
+}
+
+init()
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will

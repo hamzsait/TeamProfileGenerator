@@ -181,6 +181,7 @@ async function init(){
 
     var selection = await getOptions()
     if (selection.option == "ALL DONE"){
+        render(team)
         return
     }
     else if (selection.option == "ADD ENGINEER"){
@@ -198,7 +199,6 @@ async function init(){
         return
     }
 }
-
 init()
 
 // After the user has input all employees desired, call the `render` function (required

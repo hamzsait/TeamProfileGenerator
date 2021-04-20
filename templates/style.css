@@ -4,3 +4,7 @@
 body{
     background-color: crimson;
 }
+ul{
+    border: grey 2px solid;
+    list-style-type: disc;
+}

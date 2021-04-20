@@ -2,8 +2,10 @@
     <div class="card-body">
       <h5 class="card-title">{{ name }}</h5>
       <h6 class="card-subtitle mb-2 text-muted">{{ role }}</h6>
-      <p class="card-text">{{ id }}</p>
+      <ul>
+        <p class="card-text">{{ id }}</p>
+        <a href="{{ github }}" class="card-link">{{ github }}</a>
+      </ul>
       <a href="{{ email }}" class="card-link">{{ email }}</a>
-      <a href="{{ github }}" class="card-link">{{ github }}</a>
     </div>
   </div>

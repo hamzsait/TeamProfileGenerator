@@ -3,9 +3,16 @@
       <h5 class="card-title">{{ name }}</h5>
       <h6 class="card-subtitle mb-2 text-muted">{{ role }}</h6>
       <ul>
-        <p class="card-text">ID: {{ id }}</p>
-        <a href="{{ github }}" class="card-link">Github: {{ github }}</a>
+        <li>
+          <p class="card-text">ID: {{ id }}</p>
+        </li>
+        <li>
+          <a href="https://github.com/{{ github }}" class="card-link">Github: {{ github }}</a>
+        </li>
+        <li>
+          <a href="mailto:{{ email }}" class="card-link">Email: {{ email }}</a>
+        </li>
       </ul>
-      <a href="mailto:{{ email }}" class="card-link">Email: {{ email }}</a>
+      
     </div>
   </div>

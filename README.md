@@ -4,7 +4,7 @@ This week's assignment had us design a command line tool that could generate an 
 
 ### 1. Install Requirments
 
-Before running the program, make sure to run the following command to install dependencies,:
+Before running the program, make sure to run the following command to install dependencies:
 
         npm i
 
